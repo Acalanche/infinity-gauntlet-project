@@ -26,7 +26,10 @@ function TodoForm(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    if(!input||!description){
+      alert("Please fill all the fields.");
+      return;
+    }
     props.onSubmit({
     text: input,
   description,

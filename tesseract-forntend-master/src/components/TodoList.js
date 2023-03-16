@@ -4,8 +4,6 @@ import Todo from "./Todo";
 import { useEffect } from "react";
 import {llamarLista, createTodo, actualizar, eliminar, } from "./conection";
 
-
-
 //Crear To Do list
 function TodoList() {
   const [todos, setTodos] = useState([]);
@@ -13,7 +11,6 @@ function TodoList() {
     llamarLista()
  //   console.log(todos);
   }, [todos]);
-
 
   //Añadir elementos al To Do List
   const addTodo = async  (todo) => {
@@ -41,21 +38,35 @@ function TodoList() {
     setTodos(updatedTodos);
   };
 
-  
   //Actualizar Elementos en el To Do List
   const updateTodo = (todoId, newValue) => {
-   actualizar(todoId,newValue)
+   
     if (!newValue.text || /^\s*$/.test(newValue.text)) {
       return;
     }
-    setTodos((prev) =>
-      prev.map((item) => (item.id === todoId ? newValue : item))
-      );
-     console.log(todoId)
+    newValue.id = todoId;
+  setTodos((prev) =>
+    prev.map((item) => (item.id === todoId ? newValue : item))
+  );
+    actualizar(todoId,newValue)
+      console.log(newValue)
   };
 
+//Marcar como "Done"
+const completeTodo = (id) => {
 
+  let updatedTodos = todos.map((todo) => {
+    if (todo.id === id) {
+      todo.is_done = !todo.is_done;
+    }
+    actualizar(id,todo)
+    return todo;
+    
+  });
+  setTodos(updatedTodos);
 
+  console.log(todos)
+};
   //Eliminar Elementos del To Do List
   const removeTodo = (id) => {
     eliminar(id);
@@ -63,22 +74,7 @@ function TodoList() {
 
     setTodos(removedArr);
   };
-
-  //Marcar como "Done"
-  const completeTodo = (id) => {
-
-    let updatedTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        todo.is_done = !todo.is_done;
-      }
-     actualizar(id,todo)
-      return todo;
-      
-    });
-    setTodos(updatedTodos);
-
-  };
-
+  
   return (
     <>
       <h1>What's the Plan for Today?</h1>

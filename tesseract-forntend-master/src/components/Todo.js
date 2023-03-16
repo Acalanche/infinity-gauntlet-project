@@ -58,7 +58,7 @@ const Todo = ({
             onClick={() => removeTodo(todo.id)}
             className="delete-icon"
           />
-                    <TiEdit
+          <TiEdit
             onClick={() =>setEdit({
                 id: todo.id,
                 value: todo.text,
